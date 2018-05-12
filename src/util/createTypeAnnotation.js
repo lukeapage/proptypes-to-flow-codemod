@@ -17,16 +17,22 @@ const createPrimitiveAnnotation = primitiveType => (j) =>
 const createGenericTypeAnnotation = type => (j) =>
   j.genericTypeAnnotation(j.identifier(type), null);
 
+const objectTypeAnnotation = (j, properties) => {
+    const flowObj = j.objectTypeAnnotation(properties);
+    flowObj.exact = true;
+    return flowObj;
+};
+
 const createObjectAnnotation = (j, objectShape) => {
   if (!objectShape) {
-    return j.objectTypeAnnotation([]);
+    return objectTypeAnnotation(j, []);
   }
 
   const flowObjectProperties = createFlowObjectProperties(
     j,
     getObjectPropertiesFlowTypes(j, objectShape, true),
   );
-  return j.objectTypeAnnotation(flowObjectProperties);
+  return objectTypeAnnotation(j, flowObjectProperties);
 };
 
 const createUnionByTypeAnnotation = (j, values) =>
@@ -119,6 +125,6 @@ export default (j, propTypesObjectNode, ast, name) => {
   return j.typeAlias(
     j.identifier(name),
     null,
-    j.objectTypeAnnotation(createFlowObjectProperties(j, types)),
+    objectTypeAnnotation(j, createFlowObjectProperties(j, types)),
   );
 };

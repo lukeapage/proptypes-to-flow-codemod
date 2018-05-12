@@ -116,7 +116,7 @@ const transformer = (fileInfo, { jscodeshift }, options) => {
   addFlowComment(jscodeshift, ast);
 
   return ast.toSource({
-    lineTerminator: '\n',
+    lineTerminator: '\r\n',
     quote: 'single',
     trailingComma: true,
   });

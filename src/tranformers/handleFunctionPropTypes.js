@@ -92,7 +92,12 @@ export default (j, ast, options) => {
     if (checkExistingPropsType(func)) {
       return types;
     }
-    const typeAliasName = getTypeAliasName(name);
+
+    let typeAliasName = 'Props';
+    if (potentialFunctionalComponents.length > 1) {
+      typeAliasName = getTypeAliasName(name);
+    }
+
     const typeAnnotation = createTypeAnnotation(j, propTypesObject, ast, typeAliasName);
     addTypeAnnotationToFunction(j, func, typeAliasName);
 

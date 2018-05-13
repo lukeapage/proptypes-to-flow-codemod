@@ -67,7 +67,10 @@ export default (j, ast, options) => {
       return;
     }
 
-    const typeAliasName = getTypeAliasName(node.id.name);
+    let typeAliasName = 'Props';
+    if (classComponents.length > 1) {
+      typeAliasName = getTypeAliasName(node.id.name);
+    }
 
     typeAliases.push(createTypeAnnotation(j, propTypesObject, ast, typeAliasName));
 
